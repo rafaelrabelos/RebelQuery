@@ -36,7 +36,7 @@ static void Main(string[] args)
     .PassSelectArgs(new{cli.id, cli.Name, cli.LastName, cli.UserName})
     .RQuerySelect<Client>("");
 
-    Console.WriteLine(sou.UserMessage);
+    Console.WriteLine(dataQuery.UserMessage);
 
 }
 ```
