@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text;
 using System.Linq;
 
+
 namespace RebelQuery.Core
 {
     using Models;
@@ -10,26 +11,27 @@ namespace RebelQuery.Core
     /// <summary>
     /// QueryBuilder class 
     /// </summary>
-    public class RQueryBuilder
+    public class RQueryBuilder : SqlQuery
     {
         public object SelectArgs {get; set;}
         public object WhereArgs {get; set;}
         protected SqlQuery BuildAnQuery(DQL command)
         {
             
+            
             SqlQuery query = new SqlQuery
             {
                 CommandName = command.ToString(),
                 TableName = this.GetType().Name,
             };
-            query.QueryString = new StringBuilder("{command} {what} FROM {table} {Where}")
+            this.QueryString = new StringBuilder("{command} {what} FROM {table} {Where}")
             .Replace("{command}",query.CommandName)
             .Replace("{table}",query.TableName)
             .Replace("{what}", BuildSelectArgs())
             .Replace("{Where}", BuildWhereArgs())
             .ToString();
 
-            return query;
+            return this;
         }
 
         protected SqlQuery BuildAnQuery(DDL command)
