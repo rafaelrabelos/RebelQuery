@@ -1,8 +1,41 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.2</Version>
+    <Authors>Rafael A. Rabelo</Authors>
+    <PackageProjectUrl>https://github.com/rafaelrabelos/RebelQuery</PackageProjectUrl>
+    <PackageIconUrl>https://cdn1.imggmi.com/uploads/2019/9/1/4aab0929006f47eb734fe8cc8d340d1a-full.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/rafaelrabelos/RebelQuery</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <Description>A Rebel Query lib
+    Rebel Query is a powerful sql lib for C#/.NET applications.
+    Rebel Query is a complete lib for your application retrieve data from SQL Servers. Provides full data abstraction for Queries results, giving speed and easily for .NET queries</Description>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageReleaseNotes>1.0.1 ALPHA
+        Makes The development as alpha.
+
+        (09/01/2019)
+        1.0.1
+        Updates project files: License added GNU GENERAL PUBLIC LICENSE
+
+        (09/01/2019)
+        1.0.0
+        Project: The first release. The projet is under developmento to brings a stable version.</PackageReleaseNotes>
+    <PackageTags>query lib dotnet core orm</PackageTags>
+    <Copyright>Copyright ©2019</Copyright>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
