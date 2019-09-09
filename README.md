@@ -11,34 +11,72 @@
 RebelQuery is a powerfull sql lib for C#.
 
 ```C#
-using RebelQuery;
+	using RebelQuery;
 
-namespace testApp
-{
-    public class Client : RebelQuery.RQuery
+    public class Client : RQuery
     {
         public int id {get; set;}
         public string Name {get; set;}
         public string LastName {get; set;}
-        public string UserName {get; set;}
-        public string Password {get; set;}
         public string Email {get; set;}
     }
-}
+
 ```
+
 
 ```C#
 static void Main(string[] args)
 {
-    var cli = new Client();
-    var dataQuery = cli
-    .PassWhereArgs(new{ID ="=0 AND", Name = "='eu' OR", Email = "='r@rab.com'"})
-    .PassSelectArgs(new{cli.id, cli.Name, cli.LastName, cli.UserName})
-    .RQuerySelect<Client>("");
-
-    Console.WriteLine(dataQuery.UserMessage);
-
+	RQueryResponse myClients;
+    Client cli;
+	
+	cli = new Client();
+	cli.ConnectionString = "YOUR_CONNECTION_STRING_INFO";
+	
 }
+```
+
+
+```C#
+
+	//Explicit query
+	myClients = cli.RQueryExecute<Client>("SELECT * FROM Client");
+	myClients = cli.RQueryExecute<Client>("SELECT * FROM Client WHERE id=0");
+
+```
+
+
+```C#
+
+	//SELECT * FROM Client
+    cli.PassSelectArgs(new{});
+	cli.PassSelectArgs(null);
+	cli.PassSelectArgs();
+	cli.RQuerySelect<Client>();
+	
+	
+	//SELECT Name, Email FROM Client
+	cli.PassSelectArgs(new{cli.Name, cli.Email});
+	
+```
+
+
+````C#
+	
+	//Running a query
+	myClients = cli.RQuerySelect<Client>();
+	myClients = cli.RQueryExecute<Client>(DQL.SELECT);
+
+	if(myClients.IsSuccessful)
+			foreach (var clients in myClients.Content)
+				Console.WriteLine(
+				" id: " + clients.id
+				+ "Name: " + clients. Name
+				+ "LastName: " + clients. LastName
+				+ "Email: " + clients. Email
+				);
+		else
+			Console.WriteLine(addressList.DevMessage);
 ```
 
 **Coding Lang:**

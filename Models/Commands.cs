@@ -1,4 +1,4 @@
-namespace RebelQuery.Models
+namespace RebelQuery
 {
     public enum DML
     {
