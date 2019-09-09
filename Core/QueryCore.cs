@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Data;
@@ -33,20 +34,27 @@ namespace RebelQuery.Core
 
                 var conn = new SqlConnection(strSQLQuery.ConnectionString);
                 conn.Open();
-                var resultDr = new SqlCommand(strSQLQuery.QueryString, conn).ExecuteReader(CommandBehavior.CloseConnection);
+                var resultDr = new SqlCommand(strSQLQuery.QueryString, conn)
+                    .ExecuteReader(CommandBehavior.CloseConnection);
 
                 if (resultDr.HasRows)
                 {
+                    
                     while (resultDr.Read())
                     {
                         T obj = new T();
 
-                        foreach (var p in classPropertyInfo)
+                        for (int a = 0; a < resultDr.FieldCount; a++)
                         {
-                            if ((p != null) && p.CanWrite)
-                            {
-                                p.SetValue(obj, resultDr.GetValue(resultDr.GetOrdinal(p.Name)), null);
-                            }
+
+                            PropertyInfo prop = classPropertyInfo
+                                .Single(
+                                    x =>
+                                    x.Name.Equals(resultDr.GetName(a))
+                                );
+
+                            if ((prop != null) && prop.CanWrite)
+                                prop.SetValue(obj, resultDr.GetValue(a));
                         }
 
                         entity.Add(obj);
