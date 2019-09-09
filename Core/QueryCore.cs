@@ -32,34 +32,46 @@ namespace RebelQuery.Core
                         RowsAffected = -1
                     };
 
-                var conn = new SqlConnection(strSQLQuery.ConnectionString);
+                SqlConnection conn = new SqlConnection(strSQLQuery.ConnectionString);
                 conn.Open();
-                var resultDr = new SqlCommand(strSQLQuery.QueryString, conn)
+
+                SqlDataReader resultDr = new SqlCommand(strSQLQuery.QueryString, conn)
                     .ExecuteReader(CommandBehavior.CloseConnection);
 
                 if (resultDr.HasRows)
                 {
-                    
+                    T obj;
+                    int fieldCount = resultDr.FieldCount;
+                    int propertiesCount = new T().GetType()
+                        .GetProperties(
+                            BindingFlags.DeclaredOnly |
+                            BindingFlags.Public | 
+                            BindingFlags.Instance)
+                        .Count();
+
                     while (resultDr.Read())
                     {
-                        T obj = new T();
+                        obj = new T();
 
-                        for (int a = 0; a < resultDr.FieldCount; a++)
+                        for (int a =0, b = 0; a < fieldCount && b < propertiesCount; a++)
                         {
+                            object value = resultDr.GetValue(a);
+                            value = DBNull.Value.Equals(value) ? null: value;
 
                             PropertyInfo prop = classPropertyInfo
-                                .Single(
+                                .SingleOrDefault(
                                     x =>
                                     x.Name.Equals(resultDr.GetName(a))
                                 );
 
-                            if ((prop != null) && prop.CanWrite)
-                                prop.SetValue(obj, resultDr.GetValue(a));
+                            if ((prop != null) && prop.CanWrite){
+                                prop.SetValue(obj, value);
+                                b++;
+                            }
+                                
                         }
-
                         entity.Add(obj);
                     }
-
                     resultDr.Close();
                 }
 
@@ -72,7 +84,6 @@ namespace RebelQuery.Core
                     Content = entity,
                     RowsAffected = resultDr.RecordsAffected
                 };
-
             }
             catch (Exception e)
             {
