@@ -25,4 +25,9 @@ namespace RebelQuery
         TRUCATE = 4,
         COMMENT = 5
     }
+
+    public enum SQL
+    {
+        PRYMARY = 0
+    }
 }
