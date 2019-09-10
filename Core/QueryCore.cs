@@ -14,12 +14,11 @@ namespace RebelQuery.Core
     /// </summary>
     public class RQueryCore : RQueryBuilder
     {
-        protected static RQueryResponse<T> ExecuteQuery<T>(SqlQuery strSQLQuery) where T : new()
+        protected static RQueryResponse<T> ExecuteQuery<T>(SqlQuery strSQLQuery) where T : new() 
         {
             try
             {
                 List<T> entity = new List<T>();
-                PropertyInfo[] classPropertyInfo = typeof(T).GetProperties();
 
                 if (strSQLQuery.ConnectionString == null)
                     return new RQueryResponse<T>
@@ -41,34 +40,28 @@ namespace RebelQuery.Core
                 if (resultDr.HasRows)
                 {
                     T obj;
+                    PropertyInfo[] propertys = new T()
+                    .GetType()
+                    .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+
                     int fieldCount = resultDr.FieldCount;
-                    int propertiesCount = new T().GetType()
-                        .GetProperties(
-                            BindingFlags.DeclaredOnly |
-                            BindingFlags.Public | 
-                            BindingFlags.Instance)
-                        .Count();
 
                     while (resultDr.Read())
                     {
                         obj = new T();
 
-                        for (int a =0, b = 0; a < fieldCount && b < propertiesCount; a++)
+                        for (int a =0, b = 0; a < fieldCount && b < propertys.Count(); a++)
                         {
                             object value = resultDr.GetValue(a);
                             value = DBNull.Value.Equals(value) ? null: value;
 
-                            PropertyInfo prop = classPropertyInfo
-                                .SingleOrDefault(
-                                    x =>
-                                    x.Name.Equals(resultDr.GetName(a))
-                                );
+                            PropertyInfo prop = propertys.SingleOrDefault( x => x.Name.Equals(resultDr.GetName(a)) );
 
-                            if ((prop != null) && prop.CanWrite){
+                            if ((prop != null) && prop.CanWrite)
+                            {
                                 prop.SetValue(obj, value);
                                 b++;
-                            }
-                                
+                            }    
                         }
                         entity.Add(obj);
                     }
@@ -99,5 +92,7 @@ namespace RebelQuery.Core
             }
         }
     }
+
+    
 
 }
