@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <UserSecretsId>aspnet-{Project Name}-{GUID}</UserSecretsId>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
@@ -9,7 +10,7 @@
     <Version>1.0.3-alpha</Version>
     <Authors>Rafael A. Rabelo</Authors>
     <PackageProjectUrl>https://github.com/rafaelrabelos/RebelQuery</PackageProjectUrl>
-    <PackageIconUrl>https://cdn1.imggmi.com/uploads/2019/9/1/4aab0929006f47eb734fe8cc8d340d1a-full.png</PackageIconUrl>
+    <PackageIconUrl>https://api.nuget.org/v3-flatcontainer/rebelquery/1.0.3-alpha/icon</PackageIconUrl>
     <RepositoryUrl>https://github.com/rafaelrabelos/RebelQuery</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Description>A Rebel Query lib
@@ -33,10 +34,10 @@
 
         (09/01/2019)
         v1.0.0
-        Project: The first release. The projet is under developmento to brings a stable version.
+        Project: The first release. The projet is under development to brings a stable version.
     </PackageReleaseNotes>
-    <PackageTags>query lib dotnet core orm</PackageTags>
-    <Copyright>Copyright ©2019</Copyright>
+    <PackageTags>Query Lib Dotnet Core ORM</PackageTags>
+    <Copyright>Copyright ©2020</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,6 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
 </Project>
