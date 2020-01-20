@@ -20,7 +20,7 @@ namespace RebelQuery.Core
             {
                 List<T> entity = new List<T>();
 
-                if (strSQLQuery.ConnectionString == null)
+                if (strSQLQuery.GetConnectionString == null)
                     return new RQueryResponse<T>
                     {
                         IsSuccessful = false,
@@ -31,7 +31,7 @@ namespace RebelQuery.Core
                         RowsAffected = -1
                     };
 
-                SqlConnection conn = new SqlConnection(strSQLQuery.ConnectionString);
+                SqlConnection conn = new SqlConnection(strSQLQuery.GetConnectionString);
                 conn.Open();
 
                 SqlDataReader resultDr = new SqlCommand(strSQLQuery.QueryString, conn)
@@ -84,7 +84,7 @@ namespace RebelQuery.Core
                 {
                     IsSuccessful = false,
                     DevMessage = e.Message,
-                    UserMessage = "An exception was thrown",
+                    UserMessage = "An exception was thrown: " + strSQLQuery.QueryString,
                     StatusCode = "200",
                     Content = null,
                     RowsAffected = -1

@@ -7,19 +7,18 @@
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3-alpha</Version>
+    <Version>1.0.3</Version>
     <Authors>Rafael A. Rabelo</Authors>
     <PackageProjectUrl>https://github.com/rafaelrabelos/RebelQuery</PackageProjectUrl>
-    <PackageIconUrl>https://api.nuget.org/v3-flatcontainer/rebelquery/1.0.3-alpha/icon</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/rafaelrabelos/RebelQuery</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Description>A Rebel Query lib
     Rebel Query is a powerful sql lib for C#/.NET applications.
     Rebel Query is a complete lib for your application retrieve data from SQL Servers. Provides full data abstraction for Queries results, giving speed and easily for .NET queries</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageReleaseNotes>
-        v1.0.3-ALPHA
-        Makes The development as alpha
+    <PackageReleaseNotes>v1.0.3-ALPHA
+       Makes The development as alpha
         - Attributes support added: PrimaryKey; SqlAttribute;
         - Improved user query engine interface;
         - Support to explicit queries;
@@ -35,19 +34,26 @@
         (09/01/2019)
         v1.0.0
         Project: The first release. The projet is under development to brings a stable version.
-    </PackageReleaseNotes>
+</PackageReleaseNotes>
     <PackageTags>Query Lib Dotnet Core ORM</PackageTags>
     <Copyright>Copyright ©2020</Copyright>
+    <PackageIcon>icon.png</PackageIcon>
+    <AssemblyVersion>1.0.3.1</AssemblyVersion>
+    <FileVersion>1.0.3.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="LICENSE.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="assets\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>

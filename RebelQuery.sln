@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RebelQuery", "RebelQuery.csproj", "{A134A781-FB62-4FD7-A4AD-70CE76CB45C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RebelQuery", "Rquery\RebelQuery.csproj", "{A134A781-FB62-4FD7-A4AD-70CE76CB45C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingRquery", "TestingRquery\TestingRquery.csproj", "{FEFDB908-53F5-4260-8F45-7ED00F8125D3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A134A781-FB62-4FD7-A4AD-70CE76CB45C5} = {A134A781-FB62-4FD7-A4AD-70CE76CB45C5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{A134A781-FB62-4FD7-A4AD-70CE76CB45C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A134A781-FB62-4FD7-A4AD-70CE76CB45C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A134A781-FB62-4FD7-A4AD-70CE76CB45C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEFDB908-53F5-4260-8F45-7ED00F8125D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEFDB908-53F5-4260-8F45-7ED00F8125D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEFDB908-53F5-4260-8F45-7ED00F8125D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEFDB908-53F5-4260-8F45-7ED00F8125D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

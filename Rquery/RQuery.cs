@@ -5,11 +5,11 @@ namespace RebelQuery
     using Core;
 
     /// <summary>
-    /// RQuery execute a query and return a generic data
+    /// RQuery deliveries interface access to the core engine of query execution.
     /// </summary>
-    public class RQuery : RQueryCore, IRQuery
+    public abstract class RQuery : RQueryCore, IRQuery
     {
-        
+        protected abstract override string ConnectionString { get; }
         public RQueryResponse<T> RQueryExecute<T>(string query, object arg =null) where T : new() =>
          ExecuteQuery<T>(BuildAnQuery(query, arg));
         

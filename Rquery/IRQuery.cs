@@ -17,8 +17,17 @@ namespace RebelQuery
         RQueryResponse<T> RQueryUpdate<T>(object updateData)where T : new();
         RQueryResponse<T> RQueryInsert<T>(object arg) where T : new();
         RQueryResponse<T> RQueryDelete<T>(object arg) where T : new();
-        
+        /// <summary>
+        /// Sets arguments to be in a SQL`s WHERE clause.
+        /// </summary>
+        /// <param name="args">A object containig the args : new{TableName="'=clause'"}</param>
+        /// <returns>Return a RQuery.</returns>
         RQuery PassWhereArgs (object args);
+        /// <summary>
+        /// Selects coluns to a SELECT clause.
+        /// </summary>
+        /// <param name="args">A object containig the args : new{ColunA_Name, ColunB_Name, ...,ColunN_Name}</param>
+        /// <returns>Return a RQuery.</returns>
         RQuery PassSelectArgs (object args);
     }
 

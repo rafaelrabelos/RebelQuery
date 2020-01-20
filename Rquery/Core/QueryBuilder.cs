@@ -82,7 +82,7 @@ namespace RebelQuery.Core
                 ) : (required ? "WHERE " :  String.Empty));
 
         private bool IsValideArgs(object args) =>
-        !( args == null || object.Equals(args, new{}) || args.GetType().GetProperties().Count() <= 0 );
+        !(args == null || object.Equals(args, new{}) || object.Equals(args, String.Empty) || args.GetType().GetProperties().Count() <= 0 );
         
         private string SerializeSqlValue (object value) =>
         (value.GetType() == typeof(string) || value.GetType() == typeof(char)) ?

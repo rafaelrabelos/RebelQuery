@@ -18,7 +18,9 @@ namespace RebelQuery
         }
         
     }
-
+    /// <summary>
+    /// A SQL colum Primary Key`s identifier.
+    /// </summary>
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public sealed class PrimaryKey : Attribute{}
 
