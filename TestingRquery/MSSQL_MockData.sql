@@ -119,17 +119,3 @@ INSERT INTO CharacterMock VALUES('Carla',     'Radames',      'Carla_re',       
 INSERT INTO CharacterMock VALUES('Ethan',     'Winters',      'Eth_re',           'Eth_re_Password',      'Ethan@capcom.com', 'M')
 INSERT INTO CharacterMock VALUES('Mia',       'Winters',      'Mia_re',           'Mia_re_Password',      'Mia@capcom.com', 'F')
 INSERT INTO CharacterMock VALUES('Joe',       'Baker',        'Joe_re',           'Joe_re_Password',      'Joe@capcom.com', 'M')
-
-SELECT * FROM CharacterMock
-SELECT * FROM GameCastMock
-SELECT COUNT(*) FROM CharacterMock
-
-
-SELECT 
-    ch.Name AS Nome,
-    COUNT(g.Name) AS Game,
-    IIF(cas.CharacterIsMajor=0 ,'Não','Sim') AS Principal
-FROM CharacterMock ch 
-JOIN GameCastMock cas ON ch.id = cas.Character_Id
-JOIN GameMock g ON g.id = cas.Game_Id
-GROUP BY ch.Name, cas.CharacterIsMajor
