@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <UserSecretsId>aspnet-{Project Name}-{GUID}</UserSecretsId>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3</Version>
+    <Version>1.0.3.2</Version>
     <Authors>Rafael A. Rabelo</Authors>
     <PackageProjectUrl>https://github.com/rafaelrabelos/RebelQuery</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
@@ -17,7 +17,13 @@
     Rebel Query is a powerful sql lib for C#/.NET applications.
     Rebel Query is a complete lib for your application retrieve data from SQL Servers. Provides full data abstraction for Queries results, giving speed and easily for .NET queries</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageReleaseNotes>v1.0.3
+    <PackageReleaseNotes>
+        (28/01/2019)
+        v1.0.3.2
+        - Adds a new versio to the base version that supports .net Core 2.x version
+
+        (19/01/2019)
+        v1.0.3
         - TDD Development
         - Fix empty string where args
         - Improve connection security
@@ -47,8 +53,8 @@
     <PackageTags>Query Lib Dotnet Core ORM</PackageTags>
     <Copyright>Copyright ©2020</Copyright>
     <PackageIcon>icon.png</PackageIcon>
-    <AssemblyVersion>1.0.3.1</AssemblyVersion>
-    <FileVersion>1.0.3.1</FileVersion>
+    <AssemblyVersion>1.0.3.2</AssemblyVersion>
+    <FileVersion>1.0.3.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
