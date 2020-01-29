@@ -15,7 +15,7 @@ namespace TestingRquery.Mocks
         CONSTRAINT FK_GAMECAST_GAME FOREIGN KEY(Game_Id) REFERENCES GameMock(id)
         )
      */
-    public class GameCastMock : BaseModel
+    public class GameCastMock : DAO.DAO
     {
         [PrimaryKey]
         public int id { get; set; }

@@ -1,8 +1,8 @@
 using RebelQuery;
 
-namespace TestingRquery.Mocks
+namespace TestingRquery.DAO
 {
-    public class BaseModel : RQuery
+    public class DAO : RQuery
     {
         protected override string ConnectionString { 
             get => @"Data Source=.\SQLEXPRESS;Initial Catalog=teste; Integrated Security=SSPI"; 

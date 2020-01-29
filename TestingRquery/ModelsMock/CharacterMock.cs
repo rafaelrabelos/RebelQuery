@@ -14,7 +14,7 @@ namespace TestingRquery.Mocks
         CONSTRAINT PK_CHARACTER PRIMARY KEY(id)
         )
      */
-    public class CharacterMock : BaseModel
+    public class CharacterMock : DAO.DAO
     {
         [PrimaryKey]
         public int id { get; set; }

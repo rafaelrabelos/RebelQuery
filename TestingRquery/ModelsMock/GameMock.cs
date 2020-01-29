@@ -15,7 +15,7 @@ namespace TestingRquery.Mocks
         )
     
      */
-    public class GameMock : BaseModel
+    public class GameMock : DAO.DAO
     {
         [PrimaryKey]
         public int id { get; set; }

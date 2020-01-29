@@ -12,7 +12,13 @@ namespace TestingRquery.Data
         private static CharacterMock _character { get; set; }
         private static GameCastMock _gameCast { get; set; }
         private static GameMock _game { get; set; }
-
+        public static DAO.DAO _query { get; set; }
+        public static DAO.DAO Query { 
+            get => 
+                MocksData._query ??( MocksData._query = new DAO.DAO());
+            set => MocksData._query = value;
+        }
+        
         public static CharacterMock Character { 
             get => 
                 MocksData._character ?? (MocksData._character = new CharacterMock());
