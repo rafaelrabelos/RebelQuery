@@ -44,13 +44,16 @@ namespace RebelQuery.Core
                     .GetType()
                     .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
 
-                    int fieldCount = resultDr.FieldCount;
+                    int fieldCount = resultDr.FieldCount
+                    ,a = 0
+                    ,b = 0
+                    ,countProps = propertys.Count();
 
                     while (resultDr.Read())
                     {
                         obj = new T();
 
-                        for (int a =0, b = 0; a < fieldCount && b < propertys.Count(); a++)
+                        for (; a < fieldCount && b < propertys.Count(); a++)
                         {
                             object value = resultDr.GetValue(a);
                             value = DBNull.Value.Equals(value) ? null: value;
@@ -64,6 +67,8 @@ namespace RebelQuery.Core
                             }    
                         }
                         entity.Add(obj);
+
+                        a = b = 0;
                     }
                     resultDr.Close();
                 }
