@@ -53,7 +53,7 @@ namespace RebelQuery.Core
                     {
                         obj = new T();
 
-                        for (; a < fieldCount && b < propertys.Count(); a++)
+                        for (; a < fieldCount && b < countProps; a++)
                         {
                             object value = resultDr.GetValue(a);
                             value = DBNull.Value.Equals(value) ? null: value;
@@ -62,7 +62,17 @@ namespace RebelQuery.Core
 
                             if ((prop != null) && prop.CanWrite)
                             {
-                                prop.SetValue(obj, value);
+                                if(prop.PropertyType != value.GetType()){
+                                    try
+                                    {
+                                        var val = Convert.ChangeType(value, prop.PropertyType.GetType());
+                                        value = val;
+                                    }
+                                    catch (System.Exception)
+                                    {}
+                                }
+                                
+                                prop.SetValue(obj, value); 
                                 b++;
                             }    
                         }
