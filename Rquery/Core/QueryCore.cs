@@ -107,7 +107,7 @@ namespace RebelQuery.Core
                 {
                     IsSuccessful = false,
                     DevMessage = e.Message,
-                    UserMessage = string.Format("An exception was thrown:\n Proprty: {0}\n Sql Value: {1}\nSQL Query: {3} ", prop.Name, dataRowCurrentValue.ToString(), strSQLQuery.QueryString),
+                    UserMessage = string.Format("An exception was thrown:\n Proprty: {0}\n Sql Value: {1}\nSQL Query: {2} ", prop.Name, dataRowCurrentValue.ToString(), strSQLQuery.QueryString),
                     StatusCode = "200",
                     Content = null,
                     RowsAffected = -1

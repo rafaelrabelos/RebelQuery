@@ -18,12 +18,14 @@
     Rebel Query is a complete lib for your application retrieve data from SQL Servers. Provides full data abstraction for Queries results, giving speed and easily for .NET queries</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReleaseNotes>
-        (Working)
-        v1.0.3.2
+        (31/01/2020)
+        v1.0.3.3
         - Improve data types mapping for numeric types;
+        - Fixes Nullable mapping error;
         - Fixes DateTimeOffset mapping to DateTime;
         - Adds a new set of test case to prevent which updates make crash in working functionalities;
-        - Improve speed of the core.
+        - Improve speed of the core;
+        - More detailed errors messages;
 
         (28/01/2019)
         v1.0.3.2
@@ -47,15 +49,15 @@
         - Implements update query.
 
         v1.0.1 ALPHA
-        Makes The development as alphanuget
+         - Makes The development as alphanuget
 
         (09/01/2019)
         v1.0.1
-        Updates project files: License added GNU GENERAL PUBLIC LICENSE
+        - Updates project files: License added GNU GENERAL PUBLIC LICENSE
 
         (09/01/2019)
         v1.0.0
-        Project: The first release. The projet is under development to brings a stable version.
+        - Project: The first release. The projet is under development to brings a stable version.
 </PackageReleaseNotes>
     <PackageTags>Query Lib Dotnet Core ORM</PackageTags>
     <Copyright>Copyright ©2020</Copyright>
