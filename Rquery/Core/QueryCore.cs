@@ -16,10 +16,15 @@ namespace RebelQuery.Core
     {
         protected static RQueryResponse<T> ExecuteQuery<T>(SqlQuery strSQLQuery) where T : new() 
         {
+
+            List<T> entity = new List<T>();
+            T obj;
+            object dataRowCurrentValue =null;
+            PropertyInfo[] propertys;
+            PropertyInfo prop =null;
+
             try
             {
-                List<T> entity = new List<T>();
-
                 if (strSQLQuery.GetConnectionString == null)
                     return new RQueryResponse<T>
                     {
@@ -39,15 +44,14 @@ namespace RebelQuery.Core
 
                 if (resultDr.HasRows)
                 {
-                    T obj;
-                    PropertyInfo[] propertys = new T()
+                    propertys = new T()
                     .GetType()
                     .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
 
                     int fieldCount = resultDr.FieldCount
+                    ,countProps = propertys.Count()
                     ,a = 0
-                    ,b = 0
-                    ,countProps = propertys.Count();
+                    ,b = 0;
 
                     while (resultDr.Read())
                     {
@@ -55,28 +59,28 @@ namespace RebelQuery.Core
 
                         for (; a < fieldCount && b < countProps; a++)
                         {
-                            object value = resultDr.GetValue(a);
-                            value = DBNull.Value.Equals(value) ? null: value;
+                            dataRowCurrentValue = resultDr.GetValue(a);
+                            dataRowCurrentValue = DBNull.Value.Equals(dataRowCurrentValue) ? null: dataRowCurrentValue;
 
-                            PropertyInfo prop = propertys.SingleOrDefault( x => x.Name.Equals(resultDr.GetName(a)) );
+                            prop = propertys.SingleOrDefault( x => x.Name.Equals(resultDr.GetName(a)) );
 
                             if ((prop != null) && prop.CanWrite)
                             {
-                                if(prop.PropertyType != value.GetType()){
+                                if(dataRowCurrentValue != null && prop.PropertyType != dataRowCurrentValue.GetType()){
 
                                     Type[] TypesArr = {
-                                        value.GetType()             // First: the value;
+                                        dataRowCurrentValue.GetType()             // First: the value;
                                         ,prop.PropertyType         // Second: The property;
                                         ,typeof(DateTimeOffset)
                                     };
 
-                                    if( TypesArr[0].Equals( TypesArr[2] ) && DateTime.TryParse(value.ToString(), out DateTime result) )
-                                        value = result;
-                                    else
-                                        value = Convert.ChangeType(value, prop.PropertyType);                             
+                                    if( TypesArr[0].Equals( TypesArr[2] ) && DateTime.TryParse(dataRowCurrentValue.ToString(), out DateTime result) )
+                                        dataRowCurrentValue = result;
+                                    if(Nullable.GetUnderlyingType(prop.PropertyType) == null)
+                                        dataRowCurrentValue = Convert.ChangeType(dataRowCurrentValue, prop.PropertyType);                             
                                 }
-                                
-                                prop.SetValue(obj, value); 
+                               
+                                prop.SetValue(obj, dataRowCurrentValue); 
                                 b++;
                             }    
                         }
@@ -103,7 +107,7 @@ namespace RebelQuery.Core
                 {
                     IsSuccessful = false,
                     DevMessage = e.Message,
-                    UserMessage = "An exception was thrown: " + strSQLQuery.QueryString,
+                    UserMessage = string.Format("An exception was thrown:\n Proprty: {0}\n Sql Value: {1}\nSQL Query: {3} ", prop.Name, dataRowCurrentValue.ToString(), strSQLQuery.QueryString),
                     StatusCode = "200",
                     Content = null,
                     RowsAffected = -1
