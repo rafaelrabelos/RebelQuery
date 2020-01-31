@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>RebelQuery</id>
-    <version>1.0.3.2</version>
+    <version>1.0.3.3</version>
     <title>RebelQuery</title>
     <authors>Rafael A. Rabelo</authors>
     <owners>Rafael A. Rabelo</owners>
@@ -16,16 +16,44 @@
     </description>
     <summary> A Rebel Query lib for C#/.NET </summary>
     <releaseNotes>==== CHANGE LOG ====
-        1.0.1 ALPHA
-        Makes The development as alpha.
+        (Working)
+        v1.0.3.2
+        - Improve data types mapping for numeric types;
+        - Fixes DateTimeOffset mapping to DateTime;
+        - Adds a new set of test case to prevent which updates make crash in working functionalities;
+        - Improve speed of the core.
+
+        (28/01/2019)
+        v1.0.3.2
+        - Adds a new version to the base version that include backward supports .net Core 2.x version. Even so, its compatible with 3.x .net Core version
+
+        (19/01/2019)
+        v1.0.3
+        - TDD Development;
+        - Fix empty string on where args;
+        - Improve connection security;
+        - Attributes support added: PrimaryKey; SqlAttribute;
+        - Improved user query engine interface;
+        - Support to explicit queries;
+        - Implements update query.
+        
+        v1.0.3-ALPHA
+        - Makes The development as alpha;
+        - Attributes support added: PrimaryKey; SqlAttribute;
+        - Improved user query engine interface;
+        - Support to explicit queries;
+        - Implements update query.
+
+        v1.0.1 ALPHA
+        Makes The development as alphanuget
 
         (09/01/2019)
-        1.0.1
+        v1.0.1
         Updates project files: License added GNU GENERAL PUBLIC LICENSE
 
         (09/01/2019)
-        1.0.0
-        Project: The first release. The projet is under developmento to brings a stable version.
+        v1.0.0
+        Project: The first release. The projet is under development to brings a stable version.
           
     </releaseNotes>
     <copyright>Copyright ©2019 </copyright>

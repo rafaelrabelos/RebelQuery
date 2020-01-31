@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3.2</Version>
+    <Version>1.0.3.3</Version>
     <Authors>Rafael A. Rabelo</Authors>
     <PackageProjectUrl>https://github.com/rafaelrabelos/RebelQuery</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
@@ -18,26 +18,33 @@
     Rebel Query is a complete lib for your application retrieve data from SQL Servers. Provides full data abstraction for Queries results, giving speed and easily for .NET queries</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReleaseNotes>
+        (Working)
+        v1.0.3.2
+        - Improve data types mapping for numeric types;
+        - Fixes DateTimeOffset mapping to DateTime;
+        - Adds a new set of test case to prevent which updates make crash in working functionalities;
+        - Improve speed of the core.
+
         (28/01/2019)
         v1.0.3.2
-        - Adds a new versio to the base version that supports .net Core 2.x version
+        - Adds a new version to the base version that include backward supports .net Core 2.x version. Even so, its compatible with 3.x .net Core version
 
         (19/01/2019)
         v1.0.3
-        - TDD Development
-        - Fix empty string where args
-        - Improve connection security
+        - TDD Development;
+        - Fix empty string on where args;
+        - Improve connection security;
         - Attributes support added: PrimaryKey; SqlAttribute;
         - Improved user query engine interface;
         - Support to explicit queries;
-        - Implements update query
+        - Implements update query.
         
         v1.0.3-ALPHA
-       Makes The development as alpha
+        - Makes The development as alpha;
         - Attributes support added: PrimaryKey; SqlAttribute;
         - Improved user query engine interface;
         - Support to explicit queries;
-        - Implements update query
+        - Implements update query.
 
         v1.0.1 ALPHA
         Makes The development as alphanuget
@@ -53,8 +60,8 @@
     <PackageTags>Query Lib Dotnet Core ORM</PackageTags>
     <Copyright>Copyright ©2020</Copyright>
     <PackageIcon>icon.png</PackageIcon>
-    <AssemblyVersion>1.0.3.2</AssemblyVersion>
-    <FileVersion>1.0.3.2</FileVersion>
+    <AssemblyVersion>1.0.3.3</AssemblyVersion>
+    <FileVersion>1.0.3.3</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

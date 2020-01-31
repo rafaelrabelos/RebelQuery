@@ -63,13 +63,17 @@ namespace RebelQuery.Core
                             if ((prop != null) && prop.CanWrite)
                             {
                                 if(prop.PropertyType != value.GetType()){
-                                    try
-                                    {
-                                        var val = Convert.ChangeType(value, prop.PropertyType.GetType());
-                                        value = val;
-                                    }
-                                    catch (System.Exception)
-                                    {}
+
+                                    Type[] TypesArr = {
+                                        value.GetType()             // First: the value;
+                                        ,prop.PropertyType         // Second: The property;
+                                        ,typeof(DateTimeOffset)
+                                    };
+
+                                    if( TypesArr[0].Equals( TypesArr[2] ) && DateTime.TryParse(value.ToString(), out DateTime result) )
+                                        value = result;
+                                    else
+                                        value = Convert.ChangeType(value, prop.PropertyType);                             
                                 }
                                 
                                 prop.SetValue(obj, value); 
