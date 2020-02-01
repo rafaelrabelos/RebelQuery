@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RebelQuery", "Rquery\RebelQuery.csproj", "{A134A781-FB62-4FD7-A4AD-70CE76CB45C5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingRquery", "TestingRquery\TestingRquery.csproj", "{FEFDB908-53F5-4260-8F45-7ED00F8125D3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A134A781-FB62-4FD7-A4AD-70CE76CB45C5} = {A134A781-FB62-4FD7-A4AD-70CE76CB45C5}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
