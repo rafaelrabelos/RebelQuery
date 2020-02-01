@@ -19,6 +19,7 @@ namespace RebelQuery.Core
 
             List<T> entity = new List<T>();
             T obj;
+            Type currentRowType;
             object dataRowCurrentValue =null;
             PropertyInfo[] propertys;
             PropertyInfo prop =null;
@@ -66,19 +67,19 @@ namespace RebelQuery.Core
 
                             if ((prop != null) && prop.CanWrite)
                             {
-                                if(dataRowCurrentValue != null && prop.PropertyType != dataRowCurrentValue.GetType()){
+                                currentRowType = dataRowCurrentValue.GetType();
 
-                                    Type[] TypesArr = {
-                                        dataRowCurrentValue.GetType()             // First: the value;
-                                        ,prop.PropertyType         // Second: The property;
-                                        ,typeof(DateTimeOffset)
-                                    };
+                                if(dataRowCurrentValue != null && prop.PropertyType != currentRowType)
+                                    if( currentRowType.Equals(typeof(DateTimeOffset)) || currentRowType.Equals(typeof(DateTime)) )
+                                        if( prop.PropertyType.Equals(typeof(DateTime)) && DateTime.TryParse(dataRowCurrentValue.ToString(), out DateTime result1))
+                                            dataRowCurrentValue = result1;
+                                        else if( prop.PropertyType.Equals(typeof(DateTimeOffset)) && DateTimeOffset.TryParse(dataRowCurrentValue.ToString(), out DateTimeOffset result2))
+                                            dataRowCurrentValue = result2;
+                                        else
+                                            dataRowCurrentValue = dataRowCurrentValue.ToString();
 
-                                    if( TypesArr[0].Equals( TypesArr[2] ) && DateTime.TryParse(dataRowCurrentValue.ToString(), out DateTime result) )
-                                        dataRowCurrentValue = result;
                                     if(Nullable.GetUnderlyingType(prop.PropertyType) == null)
                                         dataRowCurrentValue = Convert.ChangeType(dataRowCurrentValue, prop.PropertyType);                             
-                                }
                                
                                 prop.SetValue(obj, dataRowCurrentValue); 
                                 b++;
