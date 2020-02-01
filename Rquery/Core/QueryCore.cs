@@ -67,19 +67,18 @@ namespace RebelQuery.Core
 
                             if ((prop != null) && prop.CanWrite)
                             {
-                                currentRowType = dataRowCurrentValue.GetType();
-
-                                if(dataRowCurrentValue != null && prop.PropertyType != currentRowType)
-                                    if( currentRowType.Equals(typeof(DateTimeOffset)) || currentRowType.Equals(typeof(DateTime)) )
-                                        if( prop.PropertyType.Equals(typeof(DateTime)) && DateTime.TryParse(dataRowCurrentValue.ToString(), out DateTime result1))
-                                            dataRowCurrentValue = result1;
-                                        else if( prop.PropertyType.Equals(typeof(DateTimeOffset)) && DateTimeOffset.TryParse(dataRowCurrentValue.ToString(), out DateTimeOffset result2))
-                                            dataRowCurrentValue = result2;
-                                        else
-                                            dataRowCurrentValue = dataRowCurrentValue.ToString();
-
-                                    if(Nullable.GetUnderlyingType(prop.PropertyType) == null)
-                                        dataRowCurrentValue = Convert.ChangeType(dataRowCurrentValue, prop.PropertyType);                             
+                                if (dataRowCurrentValue != null)
+                                    if(prop.PropertyType != (currentRowType = dataRowCurrentValue.GetType()) )
+                                        if (currentRowType.Equals(typeof(DateTimeOffset)) || currentRowType.Equals(typeof(DateTime)))
+                                            if (prop.PropertyType.Equals(typeof(DateTime)) && DateTime.TryParse(dataRowCurrentValue.ToString(), out DateTime result1))
+                                                dataRowCurrentValue = result1;
+                                            else if (prop.PropertyType.Equals(typeof(DateTimeOffset)) && DateTimeOffset.TryParse(dataRowCurrentValue.ToString(), out DateTimeOffset result2))
+                                                dataRowCurrentValue = result2;
+                                            else
+                                                dataRowCurrentValue = dataRowCurrentValue.ToString();
+                               
+                                if(Nullable.GetUnderlyingType(prop.PropertyType) == null)
+                                     dataRowCurrentValue = Convert.ChangeType(dataRowCurrentValue, prop.PropertyType);                             
                                
                                 prop.SetValue(obj, dataRowCurrentValue); 
                                 b++;
