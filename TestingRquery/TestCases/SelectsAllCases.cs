@@ -21,15 +21,19 @@ namespace TestingRquery
                     };
 
                 foreach(var sql in Queries){
+                
                         var actual = Query.RQueryExecute<CharacterMock>(sql);
                         var actual_ = Character.RQueryExecute<CharacterMock>(sql);
 
-                        Assert.AreEqual(actual, actual_);
-                        Assert.AreEqual(true, actual.IsSuccessful);
-                        Assert.AreEqual(false, actual.Content == null);
-                        Assert.AreEqual(true, actual.Content.Count > 0);
-                        Assert.AreEqual(true, actual.Content[0].GetType().Equals(typeof(CharacterMock)) );
+                    foreach (var item in new List<RQueryResponse<CharacterMock>> { actual, actual_ })
+                    {
+                        Assert.AreEqual(true, item.IsSuccessful);
+                        Assert.AreEqual(false, item.Content == null);
+                        Assert.AreEqual(true, item.Content.Count > 0);
+                        Assert.AreEqual(true, item.Content[0].GetType().Equals(typeof(CharacterMock)));
                     }
+                        
+                 }
 
             }
             [Test]
@@ -42,14 +46,16 @@ namespace TestingRquery
 
                 foreach(var sql in Queries){
                         var actual = Query.RQueryExecute<GameMock>(sql);
-                        var actual_ = Game.RQueryExecute<CharacterMock>(sql);
+                        var actual_ = Game.RQueryExecute<GameMock>(sql);
 
-                        Assert.AreEqual(actual, actual_);
-                        Assert.AreEqual(true, actual.IsSuccessful);
-                        Assert.AreEqual(false, actual.Content == null);
-                        Assert.AreEqual(true, actual.Content.Count > 0);
-                        Assert.AreEqual(true, actual.Content[0].GetType().Equals(typeof(GameMock)) );
+                    foreach (var item in new List<RQueryResponse<GameMock>> { actual, actual_ })
+                    {
+                        Assert.AreEqual(true, item.IsSuccessful);
+                        Assert.AreEqual(false, item.Content == null);
+                        Assert.AreEqual(true, item.Content.Count > 0);
+                        Assert.AreEqual(true, item.Content[0].GetType().Equals(typeof(GameMock)));
                     }
+            }
 
             }
             [Test]
@@ -62,14 +68,16 @@ namespace TestingRquery
 
                 foreach(var sql in Queries){
                         var actual = Query.RQueryExecute<GameCastMock>(sql);
-                        var actual_ = GameCast.RQueryExecute<CharacterMock>(sql);
+                        var actual_ = GameCast.RQueryExecute<GameCastMock>(sql);
 
-                        Assert.AreEqual(actual, actual_);
-                        Assert.AreEqual(true, actual.IsSuccessful);
-                        Assert.AreEqual(false, actual.Content == null);
-                        Assert.AreEqual(true, actual.Content.Count > 0);
-                        Assert.AreEqual(true, actual.Content[0].GetType().Equals(typeof(GameCastMock)) );
+                    foreach (var item in new List<RQueryResponse<GameCastMock>> { actual, actual_ })
+                    {
+                        Assert.AreEqual(true, item.IsSuccessful);
+                        Assert.AreEqual(false, item.Content == null);
+                        Assert.AreEqual(true, item.Content.Count > 0);
+                        Assert.AreEqual(true, item.Content[0].GetType().Equals(typeof(GameCastMock)));
                     }
+            }
 
             }
             
