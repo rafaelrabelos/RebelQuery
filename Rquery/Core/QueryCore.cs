@@ -8,13 +8,14 @@ using System.Data.SqlClient;
 namespace RebelQuery.Core
 {
     using Models;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// RQueryCore provides the engine to run queries
     /// </summary>
     public class RQueryCore : RQueryBuilder
     {
-        protected static RQueryResponse<T> ExecuteQuery<T>(SqlQuery strSQLQuery) where T : new() 
+        protected async static  Task<RQueryResponse<T>>  ExecuteQuery<T>(SqlQuery strSQLQuery) where T : new() 
         {
 
             List<T> entity = new List<T>();
@@ -22,7 +23,8 @@ namespace RebelQuery.Core
             Type currentRowType;
             object dataRowCurrentValue =null;
             PropertyInfo[] propertys;
-            PropertyInfo prop =null;
+            PropertyInfo prop = null;
+            SqlDataReader resultDr = null;
 
             try
             {
@@ -40,10 +42,9 @@ namespace RebelQuery.Core
                 SqlConnection conn = new SqlConnection(strSQLQuery.GetConnectionString);
                 conn.Open();
 
-                SqlDataReader resultDr = new SqlCommand(strSQLQuery.QueryString, conn)
-                    .ExecuteReader(CommandBehavior.CloseConnection);
+                SqlCommand cmd =new SqlCommand(strSQLQuery.QueryString, conn);
 
-                if (resultDr.HasRows)
+                if (cmd != null && (resultDr = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection)).HasRows)
                 {
                     propertys = new T()
                     .GetType()
@@ -54,21 +55,23 @@ namespace RebelQuery.Core
                     ,a = 0
                     ,b = 0;
 
+                    
+
                     while (resultDr.Read())
                     {
                         obj = new T();
 
-                        for (; a < fieldCount && b < countProps; a++)
+                        for (; a < fieldCount && b <= countProps; a++)
                         {
                             dataRowCurrentValue = resultDr.GetValue(a);
                             dataRowCurrentValue = DBNull.Value.Equals(dataRowCurrentValue) ? null: dataRowCurrentValue;
 
-                            prop = propertys.SingleOrDefault( x => x.Name.Equals(resultDr.GetName(a)) );
+                            prop = propertys.SingleOrDefault( x => x.Name.ToLower().Equals(resultDr.GetName(a).ToLower()) );
 
                             if ((prop != null) && prop.CanWrite)
                             {
                                 if (dataRowCurrentValue != null)
-                                    if(prop.PropertyType != (currentRowType = dataRowCurrentValue.GetType()) )
+                                    if (prop.PropertyType != (currentRowType = dataRowCurrentValue.GetType()))
                                         if (currentRowType.Equals(typeof(DateTimeOffset)) || currentRowType.Equals(typeof(DateTime)))
                                             if (prop.PropertyType.Equals(typeof(DateTime)) && DateTime.TryParse(dataRowCurrentValue.ToString(), out DateTime result1))
                                                 dataRowCurrentValue = result1;
@@ -76,14 +79,17 @@ namespace RebelQuery.Core
                                                 dataRowCurrentValue = result2;
                                             else
                                                 dataRowCurrentValue = dataRowCurrentValue.ToString();
-                               
-                                if(Nullable.GetUnderlyingType(prop.PropertyType) == null)
-                                     dataRowCurrentValue = Convert.ChangeType(dataRowCurrentValue, prop.PropertyType);                             
-                               
-                                prop.SetValue(obj, dataRowCurrentValue); 
+
+                                if (Nullable.GetUnderlyingType(prop.PropertyType) == null)
+                                    dataRowCurrentValue = Convert.ChangeType(dataRowCurrentValue, prop.PropertyType);
+
+                                prop.SetValue(obj, dataRowCurrentValue);
                                 b++;
-                            }    
+                            }
+                            else
+                                obj = (T)resultDr.GetValue(a);
                         }
+                        
                         entity.Add(obj);
 
                         a = b = 0;
@@ -107,7 +113,7 @@ namespace RebelQuery.Core
                 {
                     IsSuccessful = false,
                     DevMessage = e.Message,
-                    UserMessage = string.Format("An exception was thrown:\n Proprty: {0}\n Sql Value: {1}\nSQL Query: {2} ", prop.Name, dataRowCurrentValue.ToString(), strSQLQuery.QueryString),
+                    UserMessage = string.Format("An exception was thrown:\n Property: {0}\n Sql Value: {1}\nSQL Query: {2} ", (prop != null? prop.Name: ""), (dataRowCurrentValue?? "").ToString(), strSQLQuery.QueryString),
                     StatusCode = "200",
                     Content = null,
                     RowsAffected = -1
