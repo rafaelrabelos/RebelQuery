@@ -1,4 +1,5 @@
-
+using System.Threading.Tasks;
+using System;
 
 namespace RebelQuery
 {
@@ -9,29 +10,30 @@ namespace RebelQuery
     /// </summary>
     public abstract class RQuery : RQueryCore, IRQuery
     {
+
         protected abstract override string ConnectionString { get; }
-        public RQueryResponse<T> RQueryExecute<T>(string query, object arg =null) where T : new() =>
-         ExecuteQuery<T>(BuildAnQuery(query, arg));
+        public RQueryResponse<T> RQueryExecute<T>(string query, object arg = null) where T : new() =>
+          ExecuteQuery<T>(BuildAnQuery(query, arg)).Result;
         
         public RQueryResponse<T> RQueryExecute<T>(DQL command, object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery(command, arg));
-        public RQueryResponse<T> RQueryExecute<T>(DML command, object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery<T>(command, arg));
+        ExecuteQuery<T>(BuildAnQuery(command, arg)).Result;
+        public RQueryResponse<T> RQueryExecute<T>(DML command, object arg = null) where T : new() => 
+         ExecuteQuery<T>(BuildAnQuery<T>(command, arg)).Result;
 
         public RQueryResponse<T> RQueryExecute<T>(DDL command, object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery(command, arg));
+        ExecuteQuery<T>(BuildAnQuery(command, arg)).Result;
         
         public RQueryResponse<T> RQuerySelect<T>(object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery(DQL.SELECT, arg));
+        ExecuteQuery<T>(BuildAnQuery(DQL.SELECT, arg)).Result;
         
         public RQueryResponse<T> RQueryUpdate<T>(object updateData ) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery<T>(DML.UPDATE, updateData));
+        ExecuteQuery<T>(BuildAnQuery<T>(DML.UPDATE, updateData)).Result;
         
         public RQueryResponse<T> RQueryInsert<T>(object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery<T>(DML.INSERT, arg));
+        ExecuteQuery<T>(BuildAnQuery<T>(DML.INSERT, arg)).Result;
         
         public  RQueryResponse<T> RQueryDelete<T>(object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery<T>(DML.DELETE, arg));
+        ExecuteQuery<T>(BuildAnQuery<T>(DML.DELETE, arg)).Result;
 
         public RQuery PassWhereArgs (object args=null){
             WhereArgs =args;
