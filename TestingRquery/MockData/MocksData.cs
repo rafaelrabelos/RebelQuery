@@ -9,6 +9,17 @@ namespace TestingRquery.Data
 
     public class MocksData
     {
+        public MocksData()
+        {
+            GameObj = new GameMock();
+            GameCastObj = new GameCastMock();
+            CharacterObj = new CharacterMock();
+        }
+
+        public GameMock GameObj { get; set; }
+        public GameCastMock GameCastObj { get; set; }
+        public CharacterMock CharacterObj { get; set; }
+
         private static CharacterMock _character { get; set; }
         private static GameCastMock _gameCast { get; set; }
         private static GameMock _game { get; set; }

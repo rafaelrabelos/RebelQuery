@@ -83,7 +83,7 @@ namespace TestingRquery
             
         #endregion
 
-        #region SELECT * FROM obj.RQuerySelect
+        #region SELECT * FROM Obj.RQuerySelect
             [Test]
             public void Obj_RQuerySelectSelectAllFromCharacter()
             {
@@ -91,11 +91,7 @@ namespace TestingRquery
                         Character.RQuerySelect<CharacterMock>(""),
                         Character.RQuerySelect<CharacterMock>(),
                         Character.RQuerySelect<CharacterMock>(null),
-                        Character.RQuerySelect<CharacterMock>(new{}),
-                        Character.RQuerySelect<CharacterMock>(new CharacterMock()),
-                        Character.RQuerySelect<CharacterMock>(new { id="1"
-                            
-                        })
+                        Character.RQuerySelect<CharacterMock>(new{})
                         };
 
                 foreach(var actual in actualList){
@@ -110,35 +106,35 @@ namespace TestingRquery
             public void Obj_RQuerySelectSelectAllFromGame()
             {
                 var actualList = new[]{ 
-                        Character.RQuerySelect<GameMock>(""),
-                        Character.RQuerySelect<GameMock>(),
-                        Character.RQuerySelect<GameMock>(null),
-                        Character.RQuerySelect<GameMock>(new{})
+                        Game.RQuerySelect<GameMock>(""),
+                        Game.RQuerySelect<GameMock>(),
+                        Game.RQuerySelect<GameMock>(null),
+                        Game.RQuerySelect<GameMock>(new{})
                         };
 
                 foreach(var actual in actualList){
                     Assert.AreEqual(true, actual.IsSuccessful);
                     Assert.AreEqual(-1, actual.RowsAffected);
                     Assert.AreEqual("200", actual.StatusCode);
-                    Assert.AreEqual(41, actual.Content.Count);
+                    Assert.AreEqual(11, actual.Content.Count);
                 }
             }
 
            [Test]
             public void Obj_RQuerySelectSelectAllFromGameCast()
             {
-                var actualList = new[]{ 
-                        Character.RQuerySelect<GameCastMock>(""),
-                        Character.RQuerySelect<GameCastMock>(),
-                        Character.RQuerySelect<GameCastMock>(null),
-                        Character.RQuerySelect<GameCastMock>(new{})
+                var actualList = new[]{
+                        GameCast.RQuerySelect<GameCastMock>(""),
+                        GameCast.RQuerySelect<GameCastMock>(),
+                        GameCast.RQuerySelect<GameCastMock>(null),
+                        GameCast.RQuerySelect<GameCastMock>(new{})
                         };
 
                 foreach(var actual in actualList){
                     Assert.AreEqual(true, actual.IsSuccessful);
                     Assert.AreEqual(-1, actual.RowsAffected);
                     Assert.AreEqual("200", actual.StatusCode);
-                    Assert.AreEqual(41, actual.Content.Count);
+                    Assert.AreEqual(20, actual.Content.Count);
                 }
             }
         #endregion
