@@ -25,6 +25,8 @@ namespace RebelQuery.Core
             PropertyInfo[] propertys;
             PropertyInfo prop = null;
             SqlDataReader resultDr = null;
+            RQueryResponse<T> response = new RQueryResponse<T>();
+            DataTable rawResult = new DataTable();
 
             try
             {
@@ -55,7 +57,7 @@ namespace RebelQuery.Core
                     ,a = 0
                     ,b = 0;
 
-                    
+                    response.SqlString = strSQLQuery.QueryString;
 
                     while (resultDr.Read())
                     {
@@ -94,18 +96,15 @@ namespace RebelQuery.Core
 
                         a = b = 0;
                     }
+
+                    response.SqlString = strSQLQuery.QueryString;
+                    response.IsSuccessful = true;
+                    response.Content = entity;
+                    response.RowsAffected = resultDr.RecordsAffected;
                     resultDr.Close();
                 }
 
-                return new RQueryResponse<T>
-                {
-                    IsSuccessful = true,
-                    DevMessage = "",
-                    UserMessage = "",
-                    StatusCode = "200",
-                    Content = entity,
-                    RowsAffected = resultDr.RecordsAffected
-                };
+                return response;
             }
             catch (Exception e)
             {
@@ -113,12 +112,13 @@ namespace RebelQuery.Core
                 {
                     IsSuccessful = false,
                     DevMessage = e.Message,
-                    UserMessage = string.Format("An exception was thrown:\n Property: {0}\n Sql Value: {1}\nSQL Query: {2} ", (prop != null? prop.Name: ""), (dataRowCurrentValue?? "").ToString(), strSQLQuery.QueryString),
-                    StatusCode = "200",
+                    UserMessage = string.Format(@"
+                        An exception was thrown:\n Property: {0}\n Sql Value: {1}", (prop != null? prop.Name: ""), (dataRowCurrentValue?? "").ToString()),
                     Content = null,
                     RowsAffected = -1
                 };
             }
+            
         }
     }
 
