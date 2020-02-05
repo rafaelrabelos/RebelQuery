@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3.3</Version>
+    <Version>1.0.3.5</Version>
     <Authors>Rafael A. Rabelo</Authors>
     <PackageProjectUrl>https://github.com/rafaelrabelos/RebelQuery</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
@@ -18,6 +18,15 @@
     Rebel Query is a complete lib for your application retrieve data from SQL Servers. Provides full data abstraction for Queries results, giving speed and easily for .NET queries</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReleaseNotes>
+      (05/02/2020)
+       v1.0.3.5
+       - Optimized core architecture;
+       - Now supporting excel export over ToExcel() function
+      (02/02/2020)
+       v1.0.3.4
+       - Optimizes core with async tasks;
+       - Fixes fixes null exception on wrong sql syntax;
+       - Fixes Dates mapping to string;
         (31/01/2020)
         v1.0.3.3
         - Improve data types mapping for numeric types;
