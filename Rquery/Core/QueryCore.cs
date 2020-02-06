@@ -96,13 +96,13 @@ namespace RebelQuery.Core
 
                         a = b = 0;
                     }
-
-                    response.SqlString = strSQLQuery.QueryString;
-                    response.IsSuccessful = true;
-                    response.Content = entity;
-                    response.RowsAffected = resultDr.RecordsAffected;
-                    resultDr.Close();
                 }
+
+                response.SqlString = strSQLQuery.QueryString;
+                response.IsSuccessful = true;
+                response.Content = entity;
+                response.RowsAffected = resultDr.RecordsAffected;
+                resultDr.Close();
 
                 return response;
             }
