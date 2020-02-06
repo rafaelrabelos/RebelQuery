@@ -60,7 +60,17 @@ namespace TestingRquery
                 Assert.AreEqual(1, result.Content.Count);
 
             }
-        
+            [Test]
+            public void PassWhereArgsToCharacterSelectWithNoResults()
+            {
+                CharacterObj.PassWhereArgs(new { Name = "='no_one'" });
+                var result = CharacterObj.RQuerySelect<CharacterMock>();
+
+                Assert.AreEqual(true, result.IsSuccessful);
+                Assert.AreEqual(0, result.Content.Count);
+
+            }
+
 
         #endregion
 
