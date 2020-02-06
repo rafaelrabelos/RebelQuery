@@ -18,7 +18,7 @@ namespace RebelQuery.Core
 
             if (this.IsSuccessful & this.Content.Count >= 0)
             {
-                var sheetName = this.Content.FirstOrDefault().GetType().Name;
+                var sheetName = this.Content.Count > 0 ? this.Content.FirstOrDefault().GetType().Name:"nullResult";
                 
                 
                 workbook.AddWorksheet(sheetName);
@@ -34,7 +34,6 @@ namespace RebelQuery.Core
                     {
                         ws.Cell(1, col).Value = props[col].Name;
                         ws.Cell(row, col).Value = props[col].GetValue(item);
-                        
                     }
 
                     ws.Row(row).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
