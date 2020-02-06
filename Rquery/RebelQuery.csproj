@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <StartupObject />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3.5</Version>
+    <Version>1.0.3.6</Version>
     <Authors>Rafael A. Rabelo</Authors>
     <PackageProjectUrl>https://github.com/rafaelrabelos/RebelQuery</PackageProjectUrl>
     <PackageIconUrl></PackageIconUrl>
@@ -18,6 +18,9 @@
     Rebel Query is a complete lib for your application retrieve data from SQL Servers. Provides full data abstraction for Queries results, giving speed and easily for .NET queries</Description>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReleaseNotes>
+      (05/02/2020)
+        v1.0.3.5
+        -Fixed error when query results are empty
       (05/02/2020)
        v1.0.3.5
        - Optimized core architecture;
