@@ -30,10 +30,10 @@ namespace RebelQuery.Core
                 {
                     props = item.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
 
-                    for (var col =1; col < props.Count(); col++)
+                    for (int col =1, prop =0; prop < props.Count(); col++, prop++)
                     {
-                        ws.Cell(1, col).Value = props[col].Name;
-                        ws.Cell(row, col).Value = props[col].GetValue(item);
+                        ws.Cell(1, col).Value = props[prop].Name;
+                        ws.Cell(row, col).Value = props[prop].GetValue(item);
                     }
 
                     ws.Row(row).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
