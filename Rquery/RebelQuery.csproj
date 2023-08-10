@@ -84,7 +84,7 @@ v1.0.3.9
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.95.3" />
     <PackageReference Include="RestSharp" Version="106.12.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
   <ItemGroup>
