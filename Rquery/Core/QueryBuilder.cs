@@ -66,18 +66,28 @@ namespace RebelQuery.Core
             return this;
         }
 
-        private string BuildSetArgs<T>(object args) =>
-            IsValideArgs(args) ?
-            string.Join(
+        private string BuildSetArgs<T>(object args)
+        {
+            if (!IsValideArgs(args))
+                return string.Empty;
+
+            var primaryKeys = typeof(T)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Where(property => property.GetCustomAttributes(typeof(PrimaryKey), false).Any())
+                .Select(property => property.Name);
+
+            var keyNames = new HashSet<string>(primaryKeys, StringComparer.OrdinalIgnoreCase);
+
+            return string.Join(
                 ", ",
-                this.GetProps(args)
-                .Where(o => o.GetCustomAttributes(typeof(PrimaryKey)).Any() == false)
-                .Select(x =>
+                GetProps(args)
+                .Where(property => !keyNames.Contains(property.Name))
+                .Select(property =>
                 {
-                    var column = SafeIdentifier(x.Name);
-                    return column + "=" + AddParameter("rq_set_" + column, x.GetValue(args));
-                })
-                ) : String.Empty;
+                    var column = SafeIdentifier(property.Name);
+                    return column + "=" + AddParameter("rq_set_" + column, property.GetValue(args));
+                }));
+        }
         
         private string BuildSelectArgs() =>
             IsValideArgs(this.SelectArgs) ?

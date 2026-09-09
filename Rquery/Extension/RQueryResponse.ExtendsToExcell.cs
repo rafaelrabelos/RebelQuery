@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.IO;
 using System.Data;
@@ -16,21 +17,20 @@ namespace RebelQuery.Core
         {
             var workbook = new XLWorkbook();
 
-            if (this.IsSuccessful & this.Content.Count >= 0)
+            if (this.IsSuccessful && this.Content != null)
             {
-                var sheetName = this.Content.Count > 0 ? this.Content.FirstOrDefault().GetType().Name:"nullResult";
-                
-                
+                var sheetName = this.Content.Count > 0 ? this.Content.First().GetType().Name : "nullResult";
+
                 workbook.AddWorksheet(sheetName);
                 var ws = workbook.Worksheet(sheetName);
-                int row =2;
-                PropertyInfo[] props = new PropertyInfo[] { };
+                int row = 2;
+                PropertyInfo[] props = Array.Empty<PropertyInfo>();
 
-                foreach ( var item in this.Content )
+                foreach (var item in this.Content)
                 {
                     props = item.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
 
-                    for (int col =1, prop =0; prop < props.Count(); col++, prop++)
+                    for (int col = 1, prop = 0; prop < props.Length; col++, prop++)
                     {
                         ws.Cell(1, col).Value = props[prop].Name;
                         ws.Cell(row, col).Value = props[prop].GetValue(item);
@@ -38,17 +38,18 @@ namespace RebelQuery.Core
 
                     ws.Row(row).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-                    if(row%2 != 0)
+                    if (row % 2 != 0)
                         ws.Row(row).Style.Fill.BackgroundColor = XLColor.LightGray;
 
                     row++;
                 }
 
-                ws.Row(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                ws.Range(1,1,1, props.Count()).Style.Font.Bold = true;
-                ws.Columns().AdjustToContents();
-
-
+                if (props.Length > 0)
+                {
+                    ws.Row(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    ws.Range(1, 1, 1, props.Length).Style.Font.Bold = true;
+                    ws.Columns().AdjustToContents();
+                }
             }
 
             return workbook;
