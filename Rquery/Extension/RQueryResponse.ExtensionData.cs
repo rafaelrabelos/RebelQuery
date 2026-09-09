@@ -9,10 +9,10 @@ namespace RebelQuery.Core
 
     public partial class RQueryResponse<T>
     {
-        private dynamic _raw { get; set; }
+        private object _raw;
 
         private T1 GetRawResult<T1>() => (T1)_raw;
-        private void SetRawResult<T1>(T1 value) { _raw = (T1)value; }
+        private void SetRawResult<T1>(T1 value) { _raw = value; }
     }
 
 }

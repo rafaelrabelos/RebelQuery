@@ -33,9 +33,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            2.1.818
-            8.0.x
+          dotnet-version: 8.0.x
 
       - name: Pack
         run: >
