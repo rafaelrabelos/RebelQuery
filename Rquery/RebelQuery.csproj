@@ -12,9 +12,8 @@
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/rafaelrabelos/RebelQuery</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Description>A Rebel Query lib
-    Rebel Query is a powerful sql lib for C#/.NET applications.
-    Rebel Query is a complete lib for your application retrieve data from SQL Servers. Provides full data abstraction for Queries results, giving speed and easily for .NET queries</Description>
+    <Description>SQL helper for .NET. Map SQL Server rows to POCOs with parameterized queries.</Description>
+    <PackageReadmeFile>NUGET.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReleaseNotes>(08/2020)
 v1.0.3.9
@@ -86,6 +85,10 @@ v1.0.3.9
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\NUGET.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
