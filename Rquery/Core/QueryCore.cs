@@ -45,6 +45,7 @@ namespace RebelQuery.Core
                 conn.Open();
 
                 SqlCommand cmd =new SqlCommand(strSQLQuery.QueryString, conn);
+                BindParameters(cmd, strSQLQuery);
 
                 if (cmd != null && (resultDr = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection)).HasRows)
                 {
@@ -119,6 +120,32 @@ namespace RebelQuery.Core
                 };
             }
             
+        }
+
+        private static void BindParameters(SqlCommand command, SqlQuery query)
+        {
+            if (query?.Parameters == null)
+                return;
+
+            foreach (var parameter in query.Parameters)
+            {
+                command.Parameters.Add(CreateSqlParameter(parameter));
+            }
+        }
+
+        private static SqlParameter CreateSqlParameter(SqlQueryParameter parameter)
+        {
+            var value = parameter.Value ?? DBNull.Value;
+
+            if (value is string text)
+            {
+                return new SqlParameter(parameter.Name, SqlDbType.NVarChar, text.Length > 4000 ? -1 : 4000)
+                {
+                    Value = text
+                };
+            }
+
+            return new SqlParameter(parameter.Name, value);
         }
     }
 
