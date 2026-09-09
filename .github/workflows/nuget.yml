@@ -47,8 +47,8 @@ jobs:
         uses: NuGet/login@v1
         id: login
         with:
-          # nuget.org profile name (not email). Change if it differs from GitHub.
-          user: rafaelrabelos
+          # nuget.org profile that owns the Trusted Publishing policy (not the GitHub login).
+          user: Rabello
 
       - name: Publish to NuGet.org
         run: >
