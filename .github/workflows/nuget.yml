@@ -7,12 +7,11 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   pack-and-publish:
     runs-on: ubuntu-latest
-    env:
-      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,11 +43,17 @@ jobs:
           -p:PackageVersion=${{ steps.version.outputs.version }}
           -p:GeneratePackageOnBuild=false
 
+      - name: NuGet login (OIDC)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          # nuget.org profile name (not email). Change if it differs from GitHub.
+          user: rafaelrabelos
+
       - name: Publish to NuGet.org
-        if: env.NUGET_API_KEY != ''
         run: >
           dotnet nuget push "${{ github.workspace }}/nupkgs/*.nupkg"
-          --api-key "$NUGET_API_KEY"
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
           --source https://api.nuget.org/v3/index.json
           --skip-duplicate
 
