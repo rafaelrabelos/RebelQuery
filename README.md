@@ -1,170 +1,128 @@
-# RebelQuery Project
+# RebelQuery
 
-## Table of contents
+A small SQL helper for .NET. Map rows to POCOs, run parameterized queries, and keep connection details on the type that represents the table.
 
-<!--ts-->
-* [Description](#description)
-* [Technical Info](#technical)
-* [Install](#install)
-* [Running a Rebel Query](#Queryng)
-  * [Configure a connection](#Connecting)
-  * [Explicit Queries](#Explicit)
-  * [Storing args](#Storing)
-* [Examples](#Examples)
-<!--te-->
+[![NuGet](https://img.shields.io/nuget/v/RebelQuery.svg)](https://www.nuget.org/packages/RebelQuery)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE.txt)
 
-## Description
+## Requirements
 
-RebelQuery is a powerfull sql lib for C#.
-
-## Technical
-
-Type: Nuget Package  
-Version:1.0.3-alpha
-Code: C#  
-Dependencies: System.Data.SqlClient >= 4.6.1  
+- SQL Server
+- **netstandard2.0** or **net8.0**
+- `System.Data.SqlClient`
 
 ## Install
 
 ```bash
-Install-Package RebelQuery -Version 1.0.3-alpha
+dotnet add package RebelQuery
 ```
 
-## Queryng
+```powershell
+Install-Package RebelQuery
+```
 
-That`s the base model structure to gets the query result.
+## Define a model
 
-```C#
+The class name is the table name. Override `ConnectionString` — it is `protected`, not a public setter.
+
+```csharp
 using RebelQuery;
 
 public class Client : RQuery
 {
+    protected override string ConnectionString =>
+        "Server=localhost;Database=App;Trusted_Connection=True;";
+
     [PrimaryKey]
-    public int id {get; set;}
-    public string Name {get; set;}
-    public string LastName {get; set;}
-    public string Email {get; set;}
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
 }
 ```
 
-## Connecting
+`[PrimaryKey]` is skipped on generated `UPDATE` `SET` clauses.
 
-Setting up a connection.
+## Explicit SQL (recommended)
 
-```C#
-static void Main(string[] args)
+Use `@name` placeholders. Values go to `SqlParameter` — they are not concatenated into the string.
+
+```csharp
+var db = new Client();
+
+var result = await db.RQueryExecuteAsync<Client>(
+    "SELECT Id, Name, LastName, Email FROM Client WHERE Id = @id",
+    new { id = 6 });
+
+if (result.IsSuccessful)
 {
-    RQueryResponse myClients;
-    Client cli;
-
-    cli = new Client();
-    cli.ConnectionString = "YOUR_CONNECTION_STRING_INFO";
+    foreach (var row in result.Content)
+        Console.WriteLine($"{row.Id} {row.Name} {row.Email}");
 }
-
-```
-
-## Explicit
-
-Running the queries
-
-```C#
-/*
-
-Explicit queries are the traditional queries syntax. You can use it and to speed up your application`s database requests and run complex queries.
-
-*/
-myClients = cli.RQueryExecute<Client>("SELECT * FROM Client");
-myClients = cli.RQueryExecute<Client>("SELECT * FROM Client WHERE id=0");
-
-```
-
-## Storing
-
-Passing conditions before run a command.
-
-```C#
-/*
-
-The below lines show how to store args before execute a RebelQuery query command.
-
-Note the equivalent query the lines are corresponding to.
-*/
-
-
-
-/*
-
-corresponds to:
-SELECT * FROM Client
-
-*/
-cli.PassSelectArgs(new{});
-cli.PassSelectArgs(null);
-cli.PassSelectArgs();
-cli.RQuerySelect<Client>();
-
-
-/*
-
-corresponds to:
-SELECT Name, Email FROM Client
-
-*/
-cli
-.PassSelectArgs(new{cli.Name, cli.Email})
-.RQuerySelect<Client>();
-
-
-/*
-
-corresponds to:
-SELECT Name, Email FROM Client WHERE id='6'
-
-*/
-cli
-.PassSelectArgs(new{cli.Name, cli.Email})
-.PassWhereArgs(new{id = "=6"})
-.RQuerySelect<Client>();
-
-/*
-
-corresponds to:
-UPDATE Client
-SET Name='Rafael', LastName='Rabello',     Email='rafael_rabelo@live.com'
-WHERE id=6
-
-*/
-cli
-.PassWhereArgs(new{id = "=6"})
-.RQueryUpdate<Anomalias>(new {
-    Name = "Rafael",
-    LastName = "Rabello",
-    Email = "rafael_rabelo@live.com"
-});
-
-
-/*
-
-Running a full example
-
-*/
-
-myClients = cli.RQuerySelect<Client>();
-myClients = cli.RQueryExecute<Client>(DQL.SELECT);
-
-if(myClients.IsSuccessful)
-    foreach (var clients in myClients.Content)
-        Console.WriteLine(
-        " id: " + clients.id
-        + "Name: " + clients.Name
-        + "LastName: " + clients.LastName
-        + "Email: " + clients.Email
-        );
 else
-    Console.WriteLine(addressList.DevMessage);
-
+{
+    Console.WriteLine(result.DevMessage);
+}
 ```
 
-## Examples
+`CancellationToken` is optional on every `*Async` method.
 
-Comming...
+```csharp
+await db.RQueryExecuteAsync<Client>(
+    "SELECT * FROM Client WHERE Email = @email",
+    new { email = "user@example.com" },
+    cancellationToken);
+```
+
+## Fluent select and update
+
+Column names in `PassSelectArgs` become the `SELECT` list. `PassWhereArgs` builds `WHERE` with parameters. String values may include the operator (`=6`, `LIKE %a%`, `IN (1,2,3)`, `IS NULL`). Several conditions are joined with `AND`.
+
+```csharp
+var listed = await db
+    .PassSelectArgs(new { db.Name, db.Email })
+    .PassWhereArgs(new { Id = "=6" })
+    .RQuerySelectAsync<Client>();
+// SELECT Name, Email FROM Client WHERE Id = @rq_where_Id
+```
+
+```csharp
+var updated = await db
+    .PassWhereArgs(new { Id = "=6" })
+    .RQueryUpdateAsync<Client>(new
+    {
+        Name = "Ada",
+        LastName = "Lovelace",
+        Email = "ada@example.com"
+    });
+// UPDATE Client SET Name=@rq_set_Name, LastName=@rq_set_LastName, Email=@rq_set_Email WHERE Id = @rq_where_Id
+```
+
+For `INSERT` and `DELETE`, prefer explicit SQL. The generated DML path still follows an `UPDATE`-style template.
+
+## Response
+
+`RQueryResponse<T>` is the return type of every execute method.
+
+| Property | Meaning |
+|---|---|
+| `IsSuccessful` | Query ran without an exception |
+| `Content` | Mapped rows (`List<T>`) |
+| `RowsAffected` | Rows reported by the reader |
+| `DevMessage` | Exception text for logs |
+| `UserMessage` | Safe message for callers |
+| `SqlString` | SQL that was sent (placeholders, not values) |
+
+## Excel
+
+```csharp
+if (result.IsSuccessful)
+{
+    using var workbook = result.ToExcell();
+    workbook.SaveAs("clients.xlsx");
+}
+```
+
+## License
+
+[GNU GPL v3](LICENSE.txt)
