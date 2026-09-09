@@ -118,8 +118,7 @@ namespace RebelQuery.Core
                 {
                     IsSuccessful = false,
                     DevMessage = e.Message,
-                    UserMessage = string.Format(@"
-                        An exception was thrown:\n Property: {0}\n Sql Value: {1}", (prop != null? prop.Name: ""), (dataRowCurrentValue?? "").ToString()),
+                    UserMessage = "An error occurred while executing the query.",
                     Content = null,
                     RowsAffected = -1
                 };

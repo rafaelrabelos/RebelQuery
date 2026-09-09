@@ -24,9 +24,9 @@ namespace RebelQuery.Models
         /// </summary>
         protected virtual string ConnectionString {get; set;}
         /// <summary>
-        /// Returns the current connectionstring.
+        /// Returns the current connection string for the query engine only.
         /// </summary>
-        public string GetConnectionString { get => this.ConnectionString; }
+        internal string GetConnectionString { get => this.ConnectionString; }
 
         /// <summary>
         /// Parameters bound to <see cref="QueryString"/> placeholders.
