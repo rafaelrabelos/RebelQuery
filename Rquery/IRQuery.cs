@@ -1,3 +1,5 @@
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RebelQuery
 {
@@ -8,15 +10,15 @@ namespace RebelQuery
     /// </summary>
     public interface IRQuery
     {
-        RQueryResponse<T> RQueryExecute<T>(string quuery, object arg) where T : new();
-        RQueryResponse<T> RQueryExecute<T>(DQL command, object arg =null) where T : new();
-        RQueryResponse<T> RQueryExecute<T>(DML command, object arg =null) where T : new();
-        RQueryResponse<T> RQueryExecute<T>(DDL command, object arg =null) where T : new();
-        
-        RQueryResponse<T> RQuerySelect<T>(object arg) where T : new();
-        RQueryResponse<T> RQueryUpdate<T>(object updateData)where T : new();
-        RQueryResponse<T> RQueryInsert<T>(object arg) where T : new();
-        RQueryResponse<T> RQueryDelete<T>(object arg) where T : new();
+        Task<RQueryResponse<T>> RQueryExecuteAsync<T>(string query, object arg = null, CancellationToken cancellationToken = default) where T : new();
+        Task<RQueryResponse<T>> RQueryExecuteAsync<T>(DQL command, object arg = null, CancellationToken cancellationToken = default) where T : new();
+        Task<RQueryResponse<T>> RQueryExecuteAsync<T>(DML command, object arg = null, CancellationToken cancellationToken = default) where T : new();
+        Task<RQueryResponse<T>> RQueryExecuteAsync<T>(DDL command, object arg = null, CancellationToken cancellationToken = default) where T : new();
+
+        Task<RQueryResponse<T>> RQuerySelectAsync<T>(object arg = null, CancellationToken cancellationToken = default) where T : new();
+        Task<RQueryResponse<T>> RQueryUpdateAsync<T>(object updateData, CancellationToken cancellationToken = default) where T : new();
+        Task<RQueryResponse<T>> RQueryInsertAsync<T>(object arg = null, CancellationToken cancellationToken = default) where T : new();
+        Task<RQueryResponse<T>> RQueryDeleteAsync<T>(object arg = null, CancellationToken cancellationToken = default) where T : new();
         /// <summary>
         /// Sets arguments to be in a SQL`s WHERE clause.
         /// </summary>

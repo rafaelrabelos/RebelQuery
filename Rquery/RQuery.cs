@@ -1,5 +1,5 @@
+using System.Threading;
 using System.Threading.Tasks;
-using System;
 
 namespace RebelQuery
 {
@@ -12,39 +12,41 @@ namespace RebelQuery
     {
 
         protected abstract override string ConnectionString { get; }
-        public RQueryResponse<T> RQueryExecute<T>(string query, object arg = null) where T : new() =>
-          ExecuteQuery<T>(BuildAnQuery(query, arg)).Result;
-        
-        public RQueryResponse<T> RQueryExecute<T>(DQL command, object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery(command, arg)).Result;
-        public RQueryResponse<T> RQueryExecute<T>(DML command, object arg = null) where T : new() => 
-         ExecuteQuery<T>(BuildAnQuery<T>(command, arg)).Result;
 
-        public RQueryResponse<T> RQueryExecute<T>(DDL command, object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery(command, arg)).Result;
-        
-        public RQueryResponse<T> RQuerySelect<T>(object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery(DQL.SELECT, arg)).Result;
-        
-        public RQueryResponse<T> RQueryUpdate<T>(object updateData ) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery<T>(DML.UPDATE, updateData)).Result;
-        
-        public RQueryResponse<T> RQueryInsert<T>(object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery<T>(DML.INSERT, arg)).Result;
-        
-        public  RQueryResponse<T> RQueryDelete<T>(object arg =null) where T : new() =>
-        ExecuteQuery<T>(BuildAnQuery<T>(DML.DELETE, arg)).Result;
+        public Task<RQueryResponse<T>> RQueryExecuteAsync<T>(string query, object arg = null, CancellationToken cancellationToken = default) where T : new() =>
+            ExecuteQuery<T>(BuildAnQuery(query, arg), cancellationToken);
+
+        public Task<RQueryResponse<T>> RQueryExecuteAsync<T>(DQL command, object arg = null, CancellationToken cancellationToken = default) where T : new() =>
+            ExecuteQuery<T>(BuildAnQuery(command, arg), cancellationToken);
+
+        public Task<RQueryResponse<T>> RQueryExecuteAsync<T>(DML command, object arg = null, CancellationToken cancellationToken = default) where T : new() =>
+            ExecuteQuery<T>(BuildAnQuery<T>(command, arg), cancellationToken);
+
+        public Task<RQueryResponse<T>> RQueryExecuteAsync<T>(DDL command, object arg = null, CancellationToken cancellationToken = default) where T : new() =>
+            ExecuteQuery<T>(BuildAnQuery(command, arg), cancellationToken);
+
+        public Task<RQueryResponse<T>> RQuerySelectAsync<T>(object arg = null, CancellationToken cancellationToken = default) where T : new() =>
+            ExecuteQuery<T>(BuildAnQuery(DQL.SELECT, arg), cancellationToken);
+
+        public Task<RQueryResponse<T>> RQueryUpdateAsync<T>(object updateData, CancellationToken cancellationToken = default) where T : new() =>
+            ExecuteQuery<T>(BuildAnQuery<T>(DML.UPDATE, updateData), cancellationToken);
+
+        public Task<RQueryResponse<T>> RQueryInsertAsync<T>(object arg = null, CancellationToken cancellationToken = default) where T : new() =>
+            ExecuteQuery<T>(BuildAnQuery<T>(DML.INSERT, arg), cancellationToken);
+
+        public Task<RQueryResponse<T>> RQueryDeleteAsync<T>(object arg = null, CancellationToken cancellationToken = default) where T : new() =>
+            ExecuteQuery<T>(BuildAnQuery<T>(DML.DELETE, arg), cancellationToken);
 
         public RQuery PassWhereArgs (object args=null){
             WhereArgs =args;
             return this;
         }
-        
+
         public RQuery PassSelectArgs (object args=null){
             SelectArgs =args;
             return this;
         }
-    
+
     }
 
 }
